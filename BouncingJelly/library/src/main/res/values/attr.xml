@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="BouncingDuration" format="integer" />
+    <attr name="BouncingInterpolator" format="enum">
+        <enum name="OvershootInterpolator" value="1" />
+        <enum name="BounceInterpolator" value="2" />
+        <enum name="LinearInterpolator" value="3" />
+        <enum name="AccelerateDecelerateInterpolator" value="4" />
+    </attr>
+    <attr name="BouncingType" format="enum">
+        <enum name="none" value="0" />
+        <enum name="top" value="1" />
+        <enum name="bottom" value="2" />
+        <enum name="both" value="3" />
+    </attr>
+
+    <declare-styleable name="BouncingJellyScrollView">
+        <attr name="BouncingDuration" />
+        <attr name="BouncingInterpolator" />
+        <attr name="BouncingType" />
+    </declare-styleable>
+    <declare-styleable name="BouncingJellyToListLayout">
+        <attr name="BouncingDuration" />
+        <attr name="BouncingInterpolator" />
+        <attr name="BouncingType" />
+    </declare-styleable>
+    <declare-styleable name="BouncingRecyclerView">
+        <attr name="BouncingDuration" />
+        <attr name="BouncingInterpolator" />
+        <attr name="BouncingType" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/v_top_line"
+        android:layout_width="fill_parent"
+        android:layout_height="0.1dp"
+        android:background="#e3e3e3" />
+
+    <RelativeLayout
+        style="@style/settint_item_layout"
+        android:elevation="2dp">
+
+        <ImageView
+            android:id="@+id/iv_left_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/info" />
+
+        <TextView
+            android:id="@+id/tv_line_text"
+            style="@style/SettingTextStyle"
+            android:text="关于" />
+
+        <ImageView
+            android:id="@+id/iv_right_arrow"
+            style="@style/arror_setting"
+            android:src="@mipmap/icon_20_turn_right" />
+
+        <TextView
+            android:id="@+id/tv_right_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="1.0.0"
+            android:textColor="#000"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/v_bottom_line"
+        android:layout_width="fill_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/ShawLiner" />
+</LinearLayout>
