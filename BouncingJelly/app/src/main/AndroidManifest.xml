@@ -21,7 +21,11 @@
             android:name=".ListActivity"
             android:label="@string/title_activity_list"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".Main2Activity" />
+        <activity
+            android:name=".ScrollActivity"
+            android:label="@string/title_activity_scroll"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

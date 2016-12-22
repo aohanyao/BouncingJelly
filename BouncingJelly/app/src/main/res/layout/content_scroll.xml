@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.aohanyao.jelly.library.BouncingJellyView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bjl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:fadingEdge="none"
+    android:orientation="vertical"
+    android:overScrollMode="never"
+    app:BouncingDuration="300"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.aohanyao.bouncingjelly.ScrollActivity"
+    tools:showIn="@layout/activity_scroll">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+    </LinearLayout>
+</com.aohanyao.jelly.library.BouncingJellyView>

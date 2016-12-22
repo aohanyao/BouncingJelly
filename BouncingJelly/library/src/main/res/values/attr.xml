@@ -14,17 +14,7 @@
         <enum name="both" value="3" />
     </attr>
 
-    <declare-styleable name="BouncingJellyScrollView">
-        <attr name="BouncingDuration" />
-        <attr name="BouncingInterpolator" />
-        <attr name="BouncingType" />
-    </declare-styleable>
-    <declare-styleable name="BouncingJellyToListLayout">
-        <attr name="BouncingDuration" />
-        <attr name="BouncingInterpolator" />
-        <attr name="BouncingType" />
-    </declare-styleable>
-    <declare-styleable name="BouncingRecyclerView">
+    <declare-styleable name="BouncingJellyView">
         <attr name="BouncingDuration" />
         <attr name="BouncingInterpolator" />
         <attr name="BouncingType" />

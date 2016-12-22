@@ -1,16 +1,18 @@
 package com.aohanyao.bouncingjelly;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.aohanyao.bouncingjelly.adapter.RecyclerAdapter;
-import com.aohanyao.jelly.library.ui.BouncingRecyclerView;
 
 public class ListActivity extends AppCompatActivity {
 
-    private BouncingRecyclerView rl;
+    private RecyclerView rl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +20,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        rl = (BouncingRecyclerView) findViewById(R.id.rl);
+        rl = (RecyclerView) findViewById(R.id.rl);
         initRecyclerView();
     }
 
