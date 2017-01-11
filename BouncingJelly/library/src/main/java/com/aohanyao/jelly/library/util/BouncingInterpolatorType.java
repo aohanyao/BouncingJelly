@@ -19,7 +19,7 @@ public class BouncingInterpolatorType {
     public static final int ACCELERATE_DECELERATE_INTERPOLATOR = 4;
 
     /**
-     * 获取弹跳类型
+     * get Bouncing type
      *
      * @return
      */

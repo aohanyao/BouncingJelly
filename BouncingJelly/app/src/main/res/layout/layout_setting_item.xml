@@ -19,17 +19,17 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:src="@mipmap/info" />
+            android:src="@drawable/ic_settings_black_24dp" />
 
         <TextView
             android:id="@+id/tv_line_text"
             style="@style/SettingTextStyle"
-            android:text="关于" />
+            android:text="测试item" />
 
         <ImageView
             android:id="@+id/iv_right_arrow"
             style="@style/arror_setting"
-            android:src="@mipmap/icon_20_turn_right" />
+            android:src="@drawable/ic_chevron_right_black_24dp" />
 
         <TextView
             android:id="@+id/tv_right_text"
