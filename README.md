@@ -6,9 +6,9 @@
 
 ###效果图
 ####1. 普通的页面
-![嵌套普通的View](http://obh9jd33g.bkt.clouddn.com/bouncing-jelly-view%E6%99%AE%E9%80%9A%E6%83%85%E5%86%B5.gif)
+![嵌套普通的View](BouncingJelly/Screenshot/bouncing-jelly-view%E6%99%AE%E9%80%9A%E6%83%85%E5%86%B5.gif)
 ####2. 嵌套RecyclerView
-![嵌套RecyclerView](http://obh9jd33g.bkt.clouddn.com/bouncing-jelly-view-recyclerview.gif)
+![嵌套RecyclerView](BouncingJelly/Screenshot/bouncing-jelly-view-recyclerview.gif)
 ###使用
 1. 添加jcenter
 	
