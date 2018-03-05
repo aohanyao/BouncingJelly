@@ -8,7 +8,6 @@ import android.view.animation.OvershootInterpolator;
 
 /**
  * <p>作者：江俊超 on 2016/8/31 09:36</p>
- * <p>邮箱：928692385@qq.com</p>
  * <p>回弹差值器</p>
  */
 public class BouncingInterpolatorType {

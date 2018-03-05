@@ -10,19 +10,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.OvershootInterpolator;
-import android.widget.ScrollView;
 
 import com.aohanyao.jelly.library.inf.BouncingJellyListener;
 import com.aohanyao.jelly.library.util.BouncingInterpolatorType;
 import com.aohanyao.jelly.library.util.BouncingType;
 import com.aohanyao.jelly.library.util.ScreenUtils;
-import com.nineoldandroids.view.ViewHelper;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * <p>作者：江俊超 on 2016/8/30 14:42</p>
- * <p>邮箱：928692385@qq.com</p>
  * <p>ScrollView</p>
  */
 public class BouncingJellyView extends NestedScrollView {
@@ -43,6 +38,7 @@ public class BouncingJellyView extends NestedScrollView {
     private int downY;
     private int downX;
     private int mTouchSlop;
+
     public BouncingJellyView(Context context) {
         this(context, null);
     }
@@ -99,11 +95,11 @@ public class BouncingJellyView extends NestedScrollView {
      */
     public void bouncingTo() {
         //设置X坐标点
-        ViewHelper.setPivotX(childAt, getWidth() / 2);
+        childAt.setPivotX(getWidth() / 2);
         //设置Y坐标点
-        ViewHelper.setPivotY(childAt, 0);
+        childAt.setPivotY(0);
         //进行缩放
-        ViewHelper.setScaleY(childAt, 1.0f + offsetScale);
+        childAt.setScaleY(1.0f + offsetScale);
         if (onBouncingJellyListener != null) {
             onBouncingJellyListener.onBouncingJelly(1.0f + offsetScale);
         }
@@ -114,10 +110,10 @@ public class BouncingJellyView extends NestedScrollView {
      */
     public void bouncingBottom() {
         //设置X坐标点
-        ViewHelper.setPivotX(childAt, getWidth() / 2);
+        childAt.setPivotX(getWidth() / 2);
         //设置Y坐标点
-        ViewHelper.setPivotY(childAt, childAt.getHeight());
-        ViewHelper.setScaleY(childAt, 1.0f + offsetScale);
+        childAt.setPivotY(childAt.getHeight());
+        childAt.setScaleY(1.0f + offsetScale);
         if (onBouncingJellyListener != null) {
             onBouncingJellyListener.onBouncingJelly(1.0f + offsetScale);
         }
@@ -128,8 +124,6 @@ public class BouncingJellyView extends NestedScrollView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
     }
-
-
 
 
     @Override
@@ -235,7 +229,7 @@ public class BouncingJellyView extends NestedScrollView {
                 int moveY = (int) e.getRawY();
                 //判断是否达到最小滚动值
                 if (Math.abs(moveY - downY) > mTouchSlop) {
-                      return true;
+                    return true;
                 }
         }
         return super.onInterceptTouchEvent(e);
