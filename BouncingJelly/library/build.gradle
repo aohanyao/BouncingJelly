@@ -1,24 +1,13 @@
 apply plugin: 'com.android.library'
-ext {
-    PUBLISH_GROUP_ID = 'com.github.aohanyao'
-    PUBLISH_ARTIFACT_ID = 'bouncing-jelly-view'
-    PUBLISH_VERSION = '1.0.0'
-}
-/**
- *
- 配置项	含义
- PUBLISH_GROUP_ID	开发者名称
- PUBLISH_ARTIFACT_ID	项目名称
- PUBLISH_VERSION	版本
- */
+apply plugin: 'com.github.dcendents.android-maven'
 android {
     compileSdkVersion 24
     buildToolsVersion "25.0.2"
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 101
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -28,10 +17,42 @@ android {
     }
 }
 
+// 打包源码jar
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+//编译groovy代码时采用 UTF-8
+tasks.withType(GroovyCompile) {
+    groovyOptions.encoding = "MacRoman"
+}
+
+//编译JAVA文件时采用UTF-8
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+task javadoc(type: Javadoc) {
+    failOnError  false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// 打包文档jar
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
 }
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
