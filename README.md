@@ -1,26 +1,26 @@
 ##BouncingJellyView
 
-###最新版本: 1.0.0
+### 最新版本: 1.0.2
 
 可以嵌套任何View，滑动到顶部或者底部，会有一个阻尼效果进行缩放整个页面，松开手指回弹。灵感来自于MIUI。
 
-###效果图
-####1. 普通的页面
+### 效果图
+#### 1. 普通的页面
 ![嵌套普通的View](BouncingJelly/Screenshot/bouncing-jelly-view%E6%99%AE%E9%80%9A%E6%83%85%E5%86%B5.gif)
-####2. 嵌套RecyclerView
+#### 2. 嵌套RecyclerView
 ![嵌套RecyclerView](BouncingJelly/Screenshot/bouncing-jelly-view-recyclerview.gif)
-###使用
-1. 添加jcenter
+### 使用
+1. 添加Jitpack
 	
-		allprojects {
-    		repositories {
-       		 jcenter()
-   			 }
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
 		}
-	
+	}
 2. 在gradle中compile
 
-		com.github.aohanyao:bouncing-jelly-view:1.0.0
+		com.github.aohanyao:bouncing-jelly-view:最新版本
 
 3. xml
 	
@@ -35,23 +35,24 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
 
-		<任意布局之一>
+		<任意ViewGroup>
 			.........你的内容
-		</任意布局之一>
+		</任意ViewGroup>
 
 	</com.aohanyao.jelly.library.BouncingJellyView>
 
 ```
 
 
-###联系我
-[简书](http://www.jianshu.com/u/3e53005808b1)
+ 
 
-[CSDN](http://blog.csdn.net/aohanyao)
+### Version History
+### 2018年3月6日
+修复[issues/1#](https://github.com/aohanyao/BouncingJelly/issues/1#issuecomment-370310890)
 
+#### 2018年3月5日
+剔除多余的包
 
-
-###Version History
 #### 2017年1月11日
 1.0.0 
 
