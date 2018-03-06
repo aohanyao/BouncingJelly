@@ -1,26 +1,27 @@
 ##BouncingJellyView
 
-### 最新版本: 1.0.2
+### 最新版本: [![](https://jitpack.io/v/aohanyao/BouncingJelly.svg)](https://jitpack.io/#aohanyao/BouncingJelly)
 
 可以嵌套任何View，滑动到顶部或者底部，会有一个阻尼效果进行缩放整个页面，松开手指回弹。灵感来自于MIUI。
 
 ### 效果图
 #### 1. 普通的页面
-![嵌套普通的View](BouncingJelly/Screenshot/bouncing-jelly-view%E6%99%AE%E9%80%9A%E6%83%85%E5%86%B5.gif)
+![嵌套普通的View](Screenshot/bouncing-jelly-view%E6%99%AE%E9%80%9A%E6%83%85%E5%86%B5.gif)
 #### 2. 嵌套RecyclerView
-![嵌套RecyclerView](BouncingJelly/Screenshot/bouncing-jelly-view-recyclerview.gif)
+![嵌套RecyclerView](Screenshot/bouncing-jelly-view-recyclerview.gif)
 ### 使用
 1. 添加Jitpack
 	
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
+		allprojects {
+			repositories {
+				...
+				maven { url 'https://jitpack.io' }
+			}
 		}
-	}
+	
 2. 在gradle中compile
 
-		com.github.aohanyao:bouncing-jelly-view:最新版本
+		 compile 'com.github.aohanyao:BouncingJelly:1.0.4'
 
 3. xml
 	
@@ -29,7 +30,7 @@
 
 ```xml
 			
-	<com.aohanyao.jelly.library.BouncingJellyView xmlns:android="http://schemas.android.com/apk/res/android"
+	<com.aohanyao.jelly.library.BouncingJellyView                                                    		xmlns:android="http://schemas.android.com/apk/res/android"
 	    xmlns:app="http://schemas.android.com/apk/res-auto"
 	    xmlns:tools="http://schemas.android.com/tools"
 	    android:layout_width="match_parent"
