@@ -6,9 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:fadingEdge="none"
-    android:orientation="vertical"
-    android:overScrollMode="never"
     app:BouncingDuration="300"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.aohanyao.bouncingjelly.ScrollActivity"
@@ -17,7 +14,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/fab_margin">
 
         <include layout="@layout/layout_setting_item" />
 
@@ -27,30 +26,5 @@
 
         <include layout="@layout/layout_setting_item" />
 
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
-
-        <include layout="@layout/layout_setting_item" />
     </LinearLayout>
 </com.aohanyao.jelly.library.BouncingJellyView>

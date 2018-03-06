@@ -14,29 +14,37 @@ import android.view.animation.OvershootInterpolator;
 import com.aohanyao.jelly.library.inf.BouncingJellyListener;
 import com.aohanyao.jelly.library.util.BouncingInterpolatorType;
 import com.aohanyao.jelly.library.util.BouncingType;
-import com.aohanyao.jelly.library.util.ScreenUtils;
+import com.aohanyao.jelly.library.util.BouncingScreenUtils;
 
 /**
  * <p>作者：江俊超 on 2016/8/30 14:42</p>
  * <p>ScrollView</p>
+ * ver
+ * ---------------------------------------
+ * 2018年3月6日11:43:01
+ * 修复：https://github.com/aohanyao/BouncingJelly/issues/1#
+ * 产生原因是：
+ * ①没有设置setFillViewport，导致子ViewGroup不是全部铺满的
+ * ②在onSizeChang中错误的赋值
+ * ---------------------------------------
  */
 public class BouncingJellyView extends NestedScrollView {
-    private int dowY;
-    private int moveX;
-    private int moveY;
+    private int onInterceptTouchDownY;
+    private int dispatchTouchDowY;
     private float bouncingOffset = 2850f;
     private float offsetScale;
     private ValueAnimator animator;
     private boolean isTop = true;
     private String TAG = "BouncingJellyScroolView";
-    private BouncingJellyListener onBouncingJellyListener;//果冻弹跳的比例数
+    /**
+     * 回调
+     */
+    private BouncingJellyListener onBouncingJellyListener;
     private TimeInterpolator mTimeInterpolator;//差值器
     private int mBouncingDuration = 300;//回弹的时间
     private int mBouncingType;
-    private int dowY2;
-    private View childAt;
-    private int downY;
-    private int downX;
+    private View childView;
+
     private int mTouchSlop;
 
     public BouncingJellyView(Context context) {
@@ -57,7 +65,7 @@ public class BouncingJellyView extends NestedScrollView {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        childAt = getChildAt(0);
+        childView = getChildAt(0);
     }
 
     /**
@@ -76,53 +84,41 @@ public class BouncingJellyView extends NestedScrollView {
             mBouncingType = typedArray.getInt(R.styleable.BouncingJellyView_BouncingType, BouncingType.BOTH);
             typedArray.recycle();
             //获取是差值  整个屏幕的三倍大小
-            bouncingOffset = ScreenUtils.getScreenHeight(getContext()) * 3;
+            bouncingOffset = BouncingScreenUtils.getScreenHeight(getContext()) * 3;
+            //2018年3月6日11:31:59 修复bug，设置子view铺满
+            setFillViewport(true);
         }
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        //判断可滚动的内容是不是小于整个屏幕的高度，以防底部进行所动
-        int contentHeight = getChildAt(0).getHeight();
-        if (contentHeight > 0 && contentHeight <= ScreenUtils.getScreenHeight(getContext())) {
-            mBouncingType = BouncingType.TOP;
-        }
-    }
 
     /**
      * 从顶部开始滑动
      */
-    public void bouncingTo() {
+    public void startBouncingTo() {
         //设置X坐标点
-        childAt.setPivotX(getWidth() / 2);
+        childView.setPivotX(getWidth() / 2);
         //设置Y坐标点
-        childAt.setPivotY(0);
+        childView.setPivotY(0);
         //进行缩放
-        childAt.setScaleY(1.0f + offsetScale);
+        childView.setScaleY(1.0f + offsetScale);
         if (onBouncingJellyListener != null) {
-            onBouncingJellyListener.onBouncingJelly(1.0f + offsetScale);
+            onBouncingJellyListener.onBouncingJellyTop(1.0f + offsetScale);
         }
     }
 
     /**
-     * 从顶部开始滑动
+     * 从底部开始滑动
      */
-    public void bouncingBottom() {
+    public void startBouncingBottom() {
         //设置X坐标点
-        childAt.setPivotX(getWidth() / 2);
+        childView.setPivotX(getWidth() / 2);
         //设置Y坐标点
-        childAt.setPivotY(childAt.getHeight());
-        childAt.setScaleY(1.0f + offsetScale);
+        childView.setPivotY(childView.getHeight());
+        //开始缩放
+        childView.setScaleY(1.0f + offsetScale);
         if (onBouncingJellyListener != null) {
-            onBouncingJellyListener.onBouncingJelly(1.0f + offsetScale);
+            onBouncingJellyListener.onBouncingJellyBottom(1.0f + offsetScale);
         }
-    }
-
-
-    @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
     }
 
 
@@ -130,37 +126,43 @@ public class BouncingJellyView extends NestedScrollView {
     public boolean dispatchTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //移动坐标
-                dowY = (int) event.getRawY();
                 //按下坐标 用于计算缩放值
-                dowY2 = (int) event.getRawY();
+                dispatchTouchDowY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mBouncingType != BouncingType.NONE) {
-                    moveX = (int) event.getRawX();
-                    moveY = (int) event.getRawY();
+                    //移动的y轴
+                    int moveY = (int) event.getRawY();
                     //dy值 判断方向
-                    int dy = moveY - dowY;
-                    dowY = moveY;
+                    int dy = moveY - dispatchTouchDowY;
+
+                    //y轴滚动
+                    int scrollY = getScrollY();
+                    //获得当前高度
+                    int getHeight = getHeight();
+                    //滚动范围高度
+                    int computeVerticalScrollRange = computeVerticalScrollRange();
+
                     //顶部
-                    if (dy > 0 && getScrollY() == 0) {
+                    if (dy > 0 && scrollY == 0) {
                         //判断果冻的类型
                         if (mBouncingType == BouncingType.TOP || mBouncingType == BouncingType.BOTH) {
                             //获取现在坐标与按下坐标的差值
-                            int abs = moveY - dowY2;
+                            int abs = moveY - dispatchTouchDowY;
                             //计算缩放值
                             offsetScale = (Math.abs(abs) / bouncingOffset);
                             if (offsetScale > 0.3f) {
                                 offsetScale = 0.3f;
                             }
                             isTop = true;
-                            bouncingTo();
+                            startBouncingTo();
                             return true;
                         }
-                    } else if (getScrollY() == 0 && dy < 0 && offsetScale > 0) {//为顶部 并且dy为下拉 并且缩放值大于0
+                    } else if (scrollY == 0 && dy > 0 && offsetScale > 0) {//为顶部 并且dy为下拉 并且缩放值大于0
+                        //这一段主要是为了防止卡顿 闪屏
                         if (mBouncingType == BouncingType.TOP || mBouncingType == BouncingType.BOTH) {
                             //获取现在坐标与按下坐标的差值
-                            int abs = moveY - dowY2;
+                            int abs = moveY - dispatchTouchDowY;
                             //计算缩放值
                             offsetScale = (Math.abs(abs) / bouncingOffset);
                             if (offsetScale > 0.3f) {
@@ -168,44 +170,46 @@ public class BouncingJellyView extends NestedScrollView {
                             }
                             if (abs <= 0) {
                                 offsetScale = 0;
-                                dowY2 = moveY;
+                                dispatchTouchDowY = moveY;
                             }
                             isTop = true;
-                            bouncingTo();
+                            startBouncingTo();
                             return true;
                         }
                     }
 
                     //底部
-                    if (dy < 0 && getScrollY() + getHeight() >= computeVerticalScrollRange()) {//滚动到底部
+                    if (dy < 0 && scrollY + getHeight >= computeVerticalScrollRange) {//滚动到底部
                         if (mBouncingType == BouncingType.BOTTOM || mBouncingType == BouncingType.BOTH) {
-                            int abs = moveY - dowY2;
+                            int abs = moveY - dispatchTouchDowY;
                             offsetScale = (Math.abs(abs) / bouncingOffset);
                             if (offsetScale > 0.3f) {
                                 offsetScale = 0.3f;
                             }
                             isTop = false;
-                            bouncingBottom();
+                            startBouncingBottom();
                         }
-                    } else if (dy > 0 && getScrollY() + getHeight() >= computeVerticalScrollRange() && offsetScale > 0) {
+                    } else if (dy > 0 && scrollY + getHeight >= computeVerticalScrollRange && offsetScale > 0) {
+                        // 防止卡顿闪屏
                         if (mBouncingType == BouncingType.BOTTOM || mBouncingType == BouncingType.BOTH) {
-                            int abs = moveY - dowY2;
+                            int abs = moveY - dispatchTouchDowY;
                             offsetScale = (Math.abs(abs) / bouncingOffset);
                             if (offsetScale > 0.3f) {
                                 offsetScale = 0.3f;
                             }
                             if (abs >= 0) {
                                 offsetScale = 0;
-                                dowY2 = moveY;
+                                dispatchTouchDowY = moveY;
                             }
                             isTop = false;
-                            bouncingBottom();
+                            startBouncingBottom();
                             return true;
                         }
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                //回滚到初始点
                 if (mBouncingType != BouncingType.NONE) {
                     if (offsetScale > 0) {
                         backBouncing(offsetScale, 0);
@@ -222,13 +226,12 @@ public class BouncingJellyView extends NestedScrollView {
         int action = e.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                downX = (int) e.getRawX();
-                downY = (int) e.getRawY();
+                onInterceptTouchDownY = (int) e.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 int moveY = (int) e.getRawY();
                 //判断是否达到最小滚动值
-                if (Math.abs(moveY - downY) > mTouchSlop) {
+                if (Math.abs(moveY - onInterceptTouchDownY) > mTouchSlop) {
                     return true;
                 }
         }
@@ -247,7 +250,7 @@ public class BouncingJellyView extends NestedScrollView {
             animator.cancel();
             animator = null;
             offsetScale = 0;
-            bouncingTo();
+            startBouncingTo();
         }
         if (mTimeInterpolator == null) {
             mTimeInterpolator = new OvershootInterpolator();
@@ -261,9 +264,9 @@ public class BouncingJellyView extends NestedScrollView {
                 //获取动画阶段的值
                 offsetScale = (float) animation.getAnimatedValue();
                 if (isTop) {//回弹到顶部
-                    bouncingTo();
+                    startBouncingTo();
                 } else {//回弹到底部
-                    bouncingBottom();
+                    startBouncingBottom();
                 }
             }
         });
