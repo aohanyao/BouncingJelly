@@ -2,23 +2,29 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 android {
     compileSdkVersion 24
+
+
+
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 24
-        versionCode 103
-        versionName "1.0.3"
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 // 打包源码jar
@@ -37,7 +43,7 @@ tasks.withType(JavaCompile) {
 }
 
 task javadoc(type: Javadoc) {
-    failOnError false
+    failOnError  false
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     classpath += configurations.compile
@@ -54,6 +60,8 @@ artifacts {
     archives javadocJar
 }
 
+
 dependencies {
     implementation 'com.android.support:support-v4:24.2.1'
 }
+
