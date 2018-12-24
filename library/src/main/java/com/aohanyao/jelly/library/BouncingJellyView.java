@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -224,17 +225,21 @@ public class BouncingJellyView extends NestedScrollView {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
         int action = e.getAction();
+        Log.e(TAG, "onInterceptTouchEvent: " );
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                onInterceptTouchDownY = (int) e.getRawY();
+                onInterceptTouchDownY = (int) e.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
-                int moveY = (int) e.getRawY();
+                int moveY = (int) e.getX();
                 //判断是否达到最小滚动值
-                if (Math.abs(moveY - onInterceptTouchDownY) > mTouchSlop) {
+                int abs = Math.abs(onInterceptTouchDownY - moveY);
+                Log.e(TAG, "onInterceptTouchEvent: 拦截事件:" + abs);
+                if (abs > mTouchSlop) {
                     return true;
                 }
         }
+        // 一次不接收，永久不接收
         return super.onInterceptTouchEvent(e);
     }
 

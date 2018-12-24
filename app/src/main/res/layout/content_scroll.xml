@@ -26,5 +26,15 @@
 
         <include layout="@layout/layout_setting_item" />
 
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
+        <include layout="@layout/layout_setting_item" />
+
     </LinearLayout>
 </com.aohanyao.jelly.library.BouncingJellyView>
